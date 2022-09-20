@@ -4,6 +4,7 @@ import "./App.scss";
 import HomeScreen from "./screens/homeScreen/homeScreen";
 import Register from "./screens/register/register";
 import Login from "./screens/login/login";
+import CompanyRegister from "./screens/companyRegister/companyRegister";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/" element={<HomeScreen />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/company-register" element={<CompanyRegister />}></Route>
       </Routes>      
     </Router>
   );

@@ -1,11 +1,11 @@
-.login-container {
+.register-container {
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 20px;
     margin-top: 40px;
 }
-.login {
+.register {
     background-color: #fff;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
     text-align: center;
 }
 
-.login input {
+.register input {
     padding: 20px;
     margin-top: 20px;
     border: 1px solid #e4e4e4;
@@ -26,12 +26,12 @@
     font-size: 1.2em;
 }
 
-.login-alert {
+.register-alert {
     color: rgb(245, 47, 47);
     font-size: 1em;
 }
 
-.login button {
+.register button {
     padding: 15px;
     margin-top: 20px;
     font-size: 1.4em;
@@ -39,15 +39,11 @@
     background-color: #1cb803;
 }
 
-.login p {
+.register p {
     margin-top: 20px;
 }
 
-.login a {
+.register a {
     color: #7a7a7a;;
     font-size: 1.2em;
-}
-
-.loading-warning {
-    text-align: center;
 }

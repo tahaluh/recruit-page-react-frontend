@@ -1,16 +1,18 @@
 import "./register.scss";
 import Header from "../../components/header/header";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import userService from "../../services/usersService";
 
 export default function Register() {
+  const navigate = useNavigate();
+
   const [isLoading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [errorLoading, setErrorLoading] = useState<string | null>(null);
+  const [messageLoading, setMessageLoading] = useState<string | null>(null);
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorUsername, setErrorUsername] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
@@ -18,7 +20,7 @@ export default function Register() {
   const validate = () => {
     let error = false;
 
-    setErrorLoading(null);
+    setMessageLoading(null);
     setErrorEmail(null);
     setErrorUsername(null);
     setErrorPassword(null);
@@ -50,7 +52,13 @@ export default function Register() {
 
       userService.create(data).then((response) => {
         setLoading(false);
-        setErrorLoading(response.data.status?null:response.data.message)
+        setMessageLoading(response.data.status?null:response.data.message)
+        if (response.data.status === true){
+          navigate("/login")
+        }
+      })
+      .catch((error) => {
+        setLoading(false)
       });
     }
   };
@@ -60,12 +68,13 @@ export default function Register() {
       <Header />
       <div className="register-container">
         <form className="register" onSubmit={handleSubmit}>
+        <h2>Cadastre-se</h2>
           <span
             className="register-alert"
             role="alert"
-            aria-hidden={errorLoading !== null}
+            aria-hidden={messageLoading !== null}
           >
-            {errorLoading}
+            {messageLoading}
           </span>
           <input
             type="text"

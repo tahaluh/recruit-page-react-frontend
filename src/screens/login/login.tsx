@@ -1,23 +1,26 @@
 import "./login.scss";
 import Header from "../../components/header/header";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import userService from "../../services/usersService";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoadingToken, setLoadingToken] = useState<boolean>(true);
+
   const [email, setEmail] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
-  const [errorLoading, setErrorLoading] = useState<string | null>(null);
+  const [messageLoading, setMessageLoading] = useState<string | null>(null);
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
 
   const validate = () => {
     let error = false;
-    
-    setErrorLoading(null);
+
+    setMessageLoading(null);
     setErrorEmail(null);
     setErrorPassword(null);
 
@@ -35,7 +38,7 @@ export default function Login() {
     return !error;
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const login = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
       setLoading(true);
@@ -45,71 +48,108 @@ export default function Login() {
         password: password,
       };
 
-      userService.login(data).then((response) => {
-        setLoading(false);
-        console.log(response.data)
-      });
+      userService
+        .login(data)
+        .then((response) => {
+          setLoading(false);
+          navigate("/");
+        })
+        .catch((error) => {
+          setLoading(false);
+          setMessageLoading("Usuário não existe");
+        });
     }
   };
+
+  const tokenLogin = (token: string) => {
+    setLoadingToken(true);
+    let data = {
+      token: String(token),
+    };
+    userService
+      .tokenLogin(data)
+      .then((resposne) => {
+        setLoadingToken(false);
+        navigate("/");
+      })
+      .catch((error) => {
+        setLoadingToken(false);
+      });
+  };
+
+  useEffect(() => {
+    let token = localStorage.getItem("TOKEN");
+    if (token) {
+      tokenLogin(token);
+    } else {
+      setLoadingToken(false);
+    }
+  }, []);
 
   return (
     <div className="App">
       <Header />
-      <div className="login-container">
-        <form className="login" onSubmit={handleSubmit}>
-          <span
-            className="login-alert"
-            role="alert"
-            aria-hidden={errorLoading !== null}
-          >
-            {errorLoading}
-          </span>
 
-          <input
-            type="email"
-            placeholder="Email"
-            required
-            maxLength={255}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              setErrorEmail(null);
-            }}
-          />
-          <span
-            className="login-alert"
-            role="alert"
-            aria-hidden={errorEmail !== null}
-          >
-            {errorEmail}
-          </span>
+      {!isLoadingToken && (
+        <>
+          <div className="login-container">
+            <form className="login" onSubmit={login}>
+              <h2>Login</h2>
+              <span
+                className="login-alert"
+                role="alert"
+                aria-hidden={messageLoading !== null}
+              >
+                {messageLoading}
+              </span>
 
-          <input
-            type="password"
-            placeholder="Senha"
-            required
-            maxLength={30}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setErrorPassword(null);
-            }}
-          />
-          <span
-            className="login-alert"
-            role="alert"
-            aria-hidden={errorPassword !== null}
-          >
-            {errorPassword}
-          </span>
+              <input
+                type="email"
+                placeholder="Email"
+                required
+                maxLength={255}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setErrorEmail(null);
+                }}
+              />
+              <span
+                className="login-alert"
+                role="alert"
+                aria-hidden={errorEmail !== null}
+              >
+                {errorEmail}
+              </span>
 
-          <button type="submit" className="primary-button">
-            Entrar
-          </button>
+              <input
+                type="password"
+                placeholder="Senha"
+                required
+                maxLength={30}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  setErrorPassword(null);
+                }}
+              />
+              <span
+                className="login-alert"
+                role="alert"
+                aria-hidden={errorPassword !== null}
+              >
+                {errorPassword}
+              </span>
 
-          <p>
-            <Link to={"/login"}>Criar uma conta</Link>
-          </p>
-        </form>
-      </div>
+              <button type="submit" className="primary-button">
+                Entrar
+              </button>
+
+              <p>
+                <Link to={"/register"}>Criar uma conta</Link>
+              </p>
+            </form>
+          </div>
+        </>
+      )}
     </div>
   );
 }
