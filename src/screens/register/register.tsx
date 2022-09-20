@@ -2,12 +2,15 @@ import "./register.scss";
 import Header from "../../components/header/header";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import userService from "../../services/usersService";
 
 export default function Register() {
-  const [email, setEmail] = useState<string | null>(null);
-  const [username, setUsername] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
+  const [errorLoading, setErrorLoading] = useState<string | null>(null);
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorUsername, setErrorUsername] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
@@ -15,9 +18,10 @@ export default function Register() {
   const validate = () => {
     let error = false;
 
-    setErrorEmail("");
-    setErrorUsername("");
-    setErrorPassword("");
+    setErrorLoading(null);
+    setErrorEmail(null);
+    setErrorUsername(null);
+    setErrorPassword(null);
 
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -36,6 +40,18 @@ export default function Register() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
+      setLoading(true);
+
+      let data = {
+        email: email,
+        username: username,
+        password: password,
+      };
+
+      userService.create(data).then((response) => {
+        setLoading(false);
+        setErrorLoading(response.data.status?null:response.data.message)
+      });
     }
   };
 
@@ -44,6 +60,13 @@ export default function Register() {
       <Header />
       <div className="register-container">
         <form className="register" onSubmit={handleSubmit}>
+          <span
+            className="register-alert"
+            role="alert"
+            aria-hidden={errorLoading !== null}
+          >
+            {errorLoading}
+          </span>
           <input
             type="text"
             placeholder="Nome de usuário"

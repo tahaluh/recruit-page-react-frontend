@@ -2,19 +2,24 @@ import "./login.scss";
 import Header from "../../components/header/header";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import userService from "../../services/usersService";
 
 export default function Login() {
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
+  const [errorLoading, setErrorLoading] = useState<string | null>(null);
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
 
   const validate = () => {
     let error = false;
-
-    setErrorEmail("");
-    setErrorPassword("");
+    
+    setErrorLoading(null);
+    setErrorEmail(null);
+    setErrorPassword(null);
 
     const re =
       /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -33,6 +38,17 @@ export default function Login() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (validate()) {
+      setLoading(true);
+
+      let data = {
+        username: email,
+        password: password,
+      };
+
+      userService.login(data).then((response) => {
+        setLoading(false);
+        console.log(response.data)
+      });
     }
   };
 
@@ -41,6 +57,14 @@ export default function Login() {
       <Header />
       <div className="login-container">
         <form className="login" onSubmit={handleSubmit}>
+          <span
+            className="login-alert"
+            role="alert"
+            aria-hidden={errorLoading !== null}
+          >
+            {errorLoading}
+          </span>
+
           <input
             type="email"
             placeholder="Email"
@@ -82,7 +106,7 @@ export default function Login() {
           </button>
 
           <p>
-            <Link to={"/register"}>Criar uma conta</Link>
+            <Link to={"/login"}>Criar uma conta</Link>
           </p>
         </form>
       </div>
