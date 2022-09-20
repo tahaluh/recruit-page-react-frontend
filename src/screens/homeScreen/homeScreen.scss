@@ -1,0 +1,44 @@
+.search-div {
+  display: flex;
+  justify-content: center;
+  margin: 3em;
+}
+
+.search-input {
+  border: none;
+  border-radius: 15px 0 0 15px;
+  width: 40vw;
+  height: 30px;
+  padding: 10px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.search-input:focus {
+  outline: 0;
+}
+
+.primary-button {
+  padding: 1em;
+  border-radius: 15px;
+  border: none;
+  min-width: 7vw;
+  background-color: #405cf5;
+  color: white;
+}
+
+.search-submit {
+  border-radius: 0 15px 15px 0;
+  border: none;
+  min-width: 7vw;
+  background-color: #405cf5;
+  color: white;
+}
+
+.primary-button:hover {
+  filter: brightness(0.9);
+}
+
+.jobs-section {
+  display: flex;
+  flex-direction: column;
+}

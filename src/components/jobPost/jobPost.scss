@@ -1,0 +1,29 @@
+.jobPost {
+    font-family: monospace;
+    background-color: white;
+    padding: 20px 30px;
+    margin-bottom: .3em;
+    align-items: center;
+}
+
+.job-content {    
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 3fr 1fr;
+    max-width: 95%;
+    margin: auto;
+    align-items: center;    
+}
+
+.job-tittle {
+    font-weight: 100;
+}
+
+.job-company {
+    font-weight: 100;    
+}
+
+.job-skills {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 35px;
+}

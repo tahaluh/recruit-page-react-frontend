@@ -1,0 +1,49 @@
+.register-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    margin-top: 40px;
+}
+.register {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    width: 66%;
+    padding: 25px;
+    border-radius: 10px;
+    font-family: monospace;
+    text-align: center;
+}
+
+.register input {
+    padding: 20px;
+    margin-top: 20px;
+    border: 1px solid #e4e4e4;
+    border-radius: 10px;
+    color: #8a8a8a;
+    font-family: monospace;
+    font-size: 1.2em;
+}
+
+.register-alert {
+    color: rgb(245, 47, 47);
+    font-size: 1em;
+}
+
+.register button {
+    padding: 15px;
+    margin-top: 20px;
+    font-size: 1.4em;
+    font-family: monospace;
+    background-color: #1cb803;
+}
+
+.register p {
+    margin-top: 20px;
+}
+
+.register a {
+    color: #7a7a7a;;
+    font-size: 1.2em;
+}
