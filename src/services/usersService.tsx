@@ -46,7 +46,7 @@ class UserService {
       method: "POST",
       timeout: 5000,
       data: data,
-      headers: { Accept: "application/json" },
+      headers: { Accept: "application/json"},
     })
       .then((response) => {
         if(typeof response == 'object' && response.data.access_token){

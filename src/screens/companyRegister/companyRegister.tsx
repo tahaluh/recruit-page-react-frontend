@@ -84,12 +84,12 @@ export default function CompanyRegister() {
       setErrorCep("Informe um cep válido");
       error = true;
     }
-    let address = await viaCepApi(cep)
-    if (!address){
+    let address = await viaCepApi(cep);
+    if (!address) {
       error = true;
       setErrorCep("Cep inválido");
     } else {
-      setAddress(address)
+      setAddress(address);
     }
 
     return !error;
@@ -102,10 +102,10 @@ export default function CompanyRegister() {
     return await viaCepApiService
       .get(data)
       .then((response) => {
-        if (!response.data.erro === true){
+        if (!response.data.erro === true) {
           return `${response.data.logradouro} ${response.data.complemento} \n ${response.data.bairro} ${response.data.localidade} - ${response.data.uf}`;
         }
-        return null        
+        return null;
       })
       .catch((error) => {
         setErrorCep("Houve um erro");
@@ -119,13 +119,16 @@ export default function CompanyRegister() {
     if (validate() && (await validateCep())) {
       setLoading(true);
 
+      let token = localStorage.getItem("TOKEN");
+
       let data = {
         name: name,
         cellphone: cellphone,
         website: website,
-        address: adrress,
-        userId: 67,
+        address: adrress,        
       };
+
+      console.log(data)
 
       companysService
         .create(data)
