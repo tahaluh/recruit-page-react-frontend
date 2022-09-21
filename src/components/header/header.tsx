@@ -1,18 +1,19 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Navbar from "../navbar/navbar";
 import "./header.scss";
 
 export default function Header(props: any) {
-  const navigate = useNavigate();
+  const [logged, setLogged] = useState(false);
 
-  const logout = () => {
-    localStorage.removeItem("TOKEN")
-    navigate("/login")
-  }
+  useEffect(() => {
+    setLogged(localStorage.getItem("TOKEN") ? true : false);
+  }, []);
 
   return (
     <header className="site-header">
       <div className="logo-div">
+        <button onClick={() => {console.log(localStorage.getItem("TOKEN"))}}>testa</button>
         <Link to="/">
           <img
             className="logo"
@@ -20,14 +21,18 @@ export default function Header(props: any) {
           ></img>
         </Link>
       </div>
-      <div className="login-div">
-        <Link to="/register">
-          <button className="login-button primary-button">Cadastre-se</button>
-        </Link>
-        <button className="login-button primary-button" onClick={logout}>Logout</button>
-        <button onClick={() => {console.log(localStorage.getItem('TOKEN'))}}>teste</button>
-      </div>
-      
+
+      {logged && <Navbar setLogged={setLogged} />}
+      {!logged && (
+        <div className="login-div">
+          <Link to="/login">
+            <button className="login-button primary-button">Login</button>
+          </Link>
+          <Link to="/register">
+            <button className="login-button primary-button">Cadastre-se</button>
+          </Link>
+        </div>
+      )}
     </header>
   );
 }

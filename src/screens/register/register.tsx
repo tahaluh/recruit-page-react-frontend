@@ -50,16 +50,20 @@ export default function Register() {
         password: password,
       };
 
-      userService.create(data).then((response) => {
-        setLoading(false);
-        setMessageLoading(response.data.status?null:response.data.message)
-        if (response.data.status === true){
-          navigate("/login")
-        }
-      })
-      .catch((error) => {
-        setLoading(false)
-      });
+      userService
+        .create(data)
+        .then((response) => {
+          setLoading(false);
+          setMessageLoading(
+            response.data.status ? null : response.data.message
+          );
+          if (response.data.status === true) {
+            navigate("/login");
+          }
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
     }
   };
 
@@ -68,7 +72,7 @@ export default function Register() {
       <Header />
       <div className="register-container">
         <form className="register" onSubmit={handleSubmit}>
-        <h2>Cadastre-se</h2>
+          <h2>Cadastre-se</h2>
           <span
             className="register-alert"
             role="alert"
@@ -130,7 +134,7 @@ export default function Register() {
             {errorPassword}
           </span>
 
-          <button type="submit" className="primary-button">
+          <button type="submit" className="primary-button" disabled={!isLoading}>
             Cadastrar
           </button>
 

@@ -2,8 +2,21 @@ import "./homeScreen.scss";
 import JobsPost from "../../components/jobPost/jobPost";
 import FilterDiv from "../../components/filterDiv/filterDiv";
 import Header from "../../components/header/header";
+import { useEffect, useState } from "react";
 
 const HomeScreen = () => {
+  const [jobs, setJobs] = useState([])
+
+  const getJobs = () => {
+    let jobs: object[] = []
+    
+    return jobs
+  }
+
+  useEffect(()=>{
+
+  }, [])
+
   return (
     <div className="App"> 
       <Header /> 

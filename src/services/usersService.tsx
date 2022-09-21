@@ -51,9 +51,32 @@ class UserService {
         if (typeof response == "object" && response.data.access_token) {
           localStorage.setItem("TOKEN", response.data.access_token);
           return Promise.resolve(response);
-        }else {
+        } else {
           return Promise.reject(response);
         }
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  }
+
+  async update(data: userDataDto) {
+    let token = await localStorage.getItem("TOKEN");
+    return axios({
+      url: process.env.REACT_APP_API_URL + "user/update",
+      method: "PATCH",
+      timeout: 5000,
+      data: data,
+      headers: { Accept: "application/json", Authorization: "Bearer " + token },
+    })
+      .then((response) => {
+        if (response.data.status === true) {
+          let token = response.data.access_token;
+          if (token) {
+            localStorage.setItem("TOKEN", token);
+          }
+        }
+        return Promise.resolve(response);
       })
       .catch((error) => {
         return Promise.reject(error);

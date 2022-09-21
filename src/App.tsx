@@ -6,6 +6,7 @@ import Register from "./screens/register/register";
 import Login from "./screens/login/login";
 import CompanyRegister from "./screens/companyRegister/companyRegister";
 import axios from "axios";
+import Profile from "./screens/profile/profile";
 
 function App() {
   defineInterceptor()
@@ -15,6 +16,7 @@ function App() {
         <Route path="/" element={<HomeScreen />}></Route>
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/profile" element={<Profile />}></Route>
         <Route path="/company-register" element={<CompanyRegister />}></Route>
       </Routes>
     </Router>
@@ -32,7 +34,6 @@ function defineInterceptor() {
         if (err.response.status == 401 && err.config && !err.config._retry) {
           originalReq._retry = true;
           let token = localStorage.getItem("TOKEN");
-          console.log('refresh')
           let res = axios
             .put(`${process.env.REACT_APP_API_URL}token/refresh`, { oldToken: token })
             .then((res) => {
