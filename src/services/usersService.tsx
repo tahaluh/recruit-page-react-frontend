@@ -4,7 +4,6 @@ import { userDataDto } from "../dto/userData.dto";
 import { userDataTokenDto } from "../dto/userDataToken.dto";
 
 class UserService {
-
   async create(data: userDataDto) {
     return axios({
       url: process.env.REACT_APP_API_URL + "user/create",
@@ -30,8 +29,8 @@ class UserService {
       headers: { Accept: "application/json" },
     })
       .then((response) => {
-        if(typeof response == 'object' && response.data.access_token){
-            localStorage.setItem("TOKEN", response.data.access_token)
+        if (typeof response == "object" && response.data.access_token) {
+          localStorage.setItem("TOKEN", response.data.access_token);
         }
         return Promise.resolve(response);
       })
@@ -46,13 +45,15 @@ class UserService {
       method: "POST",
       timeout: 5000,
       data: data,
-      headers: { Accept: "application/json"},
+      headers: { Accept: "application/json" },
     })
       .then((response) => {
-        if(typeof response == 'object' && response.data.access_token){
-            localStorage.setItem("TOKEN", response.data.access_token)
+        if (typeof response == "object" && response.data.access_token) {
+          localStorage.setItem("TOKEN", response.data.access_token);
+          return Promise.resolve(response);
+        }else {
+          return Promise.reject(response);
         }
-        return Promise.resolve(response);
       })
       .catch((error) => {
         return Promise.reject(error);

@@ -128,8 +128,6 @@ export default function CompanyRegister() {
         address: adrress,        
       };
 
-      console.log(data)
-
       companysService
         .create(data)
         .then((response) => {

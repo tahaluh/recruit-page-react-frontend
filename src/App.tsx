@@ -5,8 +5,10 @@ import HomeScreen from "./screens/homeScreen/homeScreen";
 import Register from "./screens/register/register";
 import Login from "./screens/login/login";
 import CompanyRegister from "./screens/companyRegister/companyRegister";
+import axios from "axios";
 
 function App() {
+  defineInterceptor()
   return (
     <Router>
       <Routes>
@@ -14,8 +16,38 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/company-register" element={<CompanyRegister />}></Route>
-      </Routes>      
+      </Routes>
     </Router>
+  );
+}
+
+function defineInterceptor() {
+  axios.interceptors.response.use(
+    (response) => {
+      return response;
+    },
+    (err) => {
+      return new Promise((resolve, reject) => {
+        const originalReq = err.config;
+        if (err.response.status == 401 && err.config && !err.config._retry) {
+          originalReq._retry = true;
+          let token = localStorage.getItem("TOKEN");
+          console.log('refresh')
+          let res = axios
+            .put(`${process.env.REACT_APP_API_URL}token/refresh`, { oldToken: token })
+            .then((res) => {
+              localStorage.setItem("TOKEN", res.data.access_token);
+              originalReq.headers[
+                "Authorization"
+              ] = `Bearer ${res.data.access_token}`;
+              return axios(originalReq);
+            });
+          resolve(res);
+        } else {
+          reject(err);
+        }
+      });
+    }
   );
 }
 
