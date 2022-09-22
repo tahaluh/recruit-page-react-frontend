@@ -44,8 +44,6 @@ export default function Register() {
     if (validate()) {
       setLoading(true);
 
-      console.log('ue')
-
       let data = {
         email: email,
         username: username,

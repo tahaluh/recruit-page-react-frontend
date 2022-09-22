@@ -2,12 +2,19 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../navbar/navbar";
 import "./header.scss";
+import isLogedService from "../../services/isLogedService";
 
 export default function Header(props: any) {
+  const [isLoading, setLoading] = useState(true)
   const [logged, setLogged] = useState(false);
 
   useEffect(() => {
-    setLogged(localStorage.getItem("TOKEN") ? true : false);
+    const verifyLogin = async () => {
+      setLogged(await isLogedService.isLoged())
+      setLoading(false)
+    }
+
+    verifyLogin().catch(console.error)
   }, []);
 
   return (
@@ -22,8 +29,8 @@ export default function Header(props: any) {
         </Link>
       </div>
 
-      {logged && <Navbar setLogged={setLogged} />}
-      {!logged && (
+      {(logged && !isLoading) && <Navbar setLogged={setLogged} />}
+      {(!logged && !isLoading)  && (
         <div className="login-div">
           <Link to="/login">
             <button className="login-button primary-button">Login</button>

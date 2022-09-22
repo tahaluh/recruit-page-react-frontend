@@ -20,12 +20,10 @@ const HomeScreen = () => {
     jobService
       .findAll()
       .then((response: jobDataDto[]) => {
-        console.log(response);
         setJobs(response)
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
         return;
       });
 

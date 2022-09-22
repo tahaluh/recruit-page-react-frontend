@@ -58,7 +58,6 @@ class JobService {
       headers: { Accept: "application/json", Authorization: "Bearer " + token },
     })
       .then(async (response) => {
-        console.log('uai')
         return (await Promise.resolve(response)).data;
       })
       .catch((error) => {

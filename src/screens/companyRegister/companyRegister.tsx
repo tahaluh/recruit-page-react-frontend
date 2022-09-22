@@ -119,8 +119,6 @@ export default function CompanyRegister() {
     if (validate() && (await validateCep())) {
       setLoading(true);
 
-      let token = localStorage.getItem("TOKEN");
-
       let data = {
         name: name,
         cellphone: cellphone,

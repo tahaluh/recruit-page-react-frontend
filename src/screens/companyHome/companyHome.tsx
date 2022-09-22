@@ -29,7 +29,6 @@ export default function CompanyHome() {
         setLoading(false);
       })
       .catch((error) => {
-        console.log(error);
         return;
       });
 
@@ -37,11 +36,9 @@ export default function CompanyHome() {
   };
 
   const verifyCompany = () => {
-    console.log("iha");
     companyService
       .getCompany()
       .then((response) => {
-        console.log(response);
         if (response.id) {
           setLoading(false);
         } else {
@@ -61,44 +58,53 @@ export default function CompanyHome() {
   return (
     <div className="App">
       <Header />
-      <div className="search-div">
-        <i className="search-icon"></i>
-        <input
-          className="search-input"
-          type="text"
-          placeholder="Pesquise por tag ou localização"
-        ></input>
-        <button className="search-submit primary-button">Buscar</button>
-      </div>
-      <div className="new-job-div">
-        <button className="primary-button new-job-button" onClick={() => {navigate('/job-register')}}>
-          Criar Vaga
-        </button>
-      </div>
-      <FilterDiv></FilterDiv>
-      <main className="site-main">
-        <section className="jobs-section">
-          {jobs.map((job) => {
-            return (
-              <JobsPost
-                key={job.id}
-                id={job.id}
-                company={JSON.stringify(job.company?.name).replace(
-                  /[(\\n)"]/g,
-                  ""
-                )}
-                companyAddress={JSON.stringify(job.company?.address).replace(
-                  /[(\\n)"]/g,
-                  ""
-                )}
-                office={job.office}
-                salary={job.salary}
-                skills={job.skills}
-              />
-            );
-          })}
-        </section>
-      </main>
+      {!isLoading && (
+        <>
+          <div className="search-div">
+            <i className="search-icon"></i>
+            <input
+              className="search-input"
+              type="text"
+              placeholder="Pesquise por tag ou localização"
+            ></input>
+            <button className="search-submit primary-button">Buscar</button>
+          </div>
+
+          <div className="new-job-div">
+            <button
+              className="primary-button new-job-button"
+              onClick={() => {
+                navigate("/job-register");
+              }}
+            >
+              Criar Vaga
+            </button>
+          </div>
+          <FilterDiv></FilterDiv>
+          <main className="site-main">
+            <section className="jobs-section">
+              {jobs.map((job) => {
+                return (
+                  <JobsPost
+                    key={job.id}
+                    id={job.id}
+                    company={JSON.stringify(job.company?.name).replace(
+                      /[(\\n)"]/g,
+                      ""
+                    )}
+                    companyAddress={JSON.stringify(
+                      job.company?.address
+                    ).replace(/[(\\n)"]/g, "")}
+                    office={job.office}
+                    salary={job.salary}
+                    skills={job.skills}
+                  />
+                );
+              })}
+            </section>
+          </main>
+        </>
+      )}
     </div>
   );
 }

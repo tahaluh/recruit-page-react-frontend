@@ -40,7 +40,7 @@ export default function JobsPost(props: any) {
           })}
         </div>
         <div className="job-apply-button-div">
-          <Link to={`job/${props.id}`} className="job-apply-button primary-button">
+          <Link to={`/job/${props.id}`} className="job-apply-button primary-button">
             Visualizar
           </Link>
         </div>

@@ -51,7 +51,6 @@ export default function JobRegister() {
           navigate("/company");
         })
         .catch((error) => {
-          console.log(error);
         });
 
       setLoading(false);
