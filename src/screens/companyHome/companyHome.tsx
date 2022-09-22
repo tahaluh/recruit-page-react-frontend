@@ -15,6 +15,9 @@ export default function CompanyHome() {
   const [jobs, setJobs] = useState<jobDataDto[]>([]);
   const [isLoading, setLoading] = useState(true);
 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [tempSearchTerm, setTempSearchTerm] = useState("");
+
   const getJobs = () => {
     let jobs: object[] = [];
 
@@ -66,8 +69,18 @@ export default function CompanyHome() {
               className="search-input"
               type="text"
               placeholder="Pesquise por tag ou localização"
+              onChange={(event) => {
+                setTempSearchTerm(event.target.value);
+              }}
             ></input>
-            <button className="search-submit primary-button">Buscar</button>
+            <button
+              className="search-submit primary-button"
+              onClick={() => {
+                setSearchTerm(tempSearchTerm);
+              }}
+            >
+              Buscar
+            </button>
           </div>
 
           <div className="new-job-div">
@@ -83,25 +96,42 @@ export default function CompanyHome() {
           <FilterDiv></FilterDiv>
           <main className="site-main">
             <section className="jobs-section">
-              {jobs.map((job) => {
-                return (
-                  <JobsPost
-                    companyLogged={true}
-                    key={job.id}
-                    id={job.id}
-                    company={JSON.stringify(job.company?.name).replace(
-                      /[(\\n)"]/g,
-                      ""
-                    )}
-                    companyAddress={JSON.stringify(
-                      job.company?.address
-                    ).replace(/[(\\n)"]/g, "")}
-                    office={job.office}
-                    salary={job.salary}
-                    skills={job.skills}
-                  />
-                );
-              })}
+              {jobs
+                .filter((job) => {
+                  if (searchTerm == "") {
+                    return job;
+                  } else if (
+                    job.office
+                      .toLocaleLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase()) ||
+                    job.skills
+                      .toLocaleLowerCase()
+                      .includes(searchTerm.toLocaleLowerCase())
+                  ) {
+                    return job;
+                  } else {
+                    return;
+                  }
+                })
+                .map((job) => {
+                  return (
+                    <JobsPost
+                      companyLogged={true}
+                      key={job.id}
+                      id={job.id}
+                      company={JSON.stringify(job.company?.name).replace(
+                        /[(\\n)"]/g,
+                        ""
+                      )}
+                      companyAddress={JSON.stringify(
+                        job.company?.address
+                      ).replace(/[(\\n)"]/g, "")}
+                      office={job.office}
+                      salary={job.salary}
+                      skills={job.skills}
+                    />
+                  );
+                })}
             </section>
           </main>
         </>

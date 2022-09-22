@@ -20,7 +20,7 @@ export default function Header(props: any) {
   return (
     <header className="site-header">
       <div className="logo-div">
-        <button onClick={() => {console.log(localStorage.getItem("TOKEN"))}}>testa</button>
+        
         <Link to="/">
           <img
             className="logo"
