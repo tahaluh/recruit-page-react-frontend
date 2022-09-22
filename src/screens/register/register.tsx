@@ -7,7 +7,7 @@ import userService from "../../services/usersService";
 export default function Register() {
   const navigate = useNavigate();
 
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [email, setEmail] = useState<string>("");
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -43,6 +43,8 @@ export default function Register() {
     e.preventDefault();
     if (validate()) {
       setLoading(true);
+
+      console.log('ue')
 
       let data = {
         email: email,

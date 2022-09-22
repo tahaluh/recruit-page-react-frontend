@@ -7,6 +7,9 @@ import Login from "./screens/login/login";
 import CompanyRegister from "./screens/companyRegister/companyRegister";
 import axios from "axios";
 import Profile from "./screens/profile/profile";
+import CompanyHome from "./screens/companyHome/companyHome";
+import JobRegister from "./screens/jobRegister/jobRegister";
+import JobView from "./screens/jobView/jobView";
 
 function App() {
   defineInterceptor()
@@ -17,7 +20,10 @@ function App() {
         <Route path="/register" element={<Register />}></Route>
         <Route path="/login" element={<Login />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/company" element={<CompanyHome />}></Route>
         <Route path="/company-register" element={<CompanyRegister />}></Route>
+        <Route path="/job-register" element={<JobRegister />}></Route>
+        <Route path="/job/:id" element={<JobView />}></Route>
       </Routes>
     </Router>
   );
@@ -30,6 +36,7 @@ function defineInterceptor() {
     },
     (err) => {
       return new Promise((resolve, reject) => {
+        console.log('refresh')
         const originalReq = err.config;
         if (err.response.status == 401 && err.config && !err.config._retry) {
           originalReq._retry = true;

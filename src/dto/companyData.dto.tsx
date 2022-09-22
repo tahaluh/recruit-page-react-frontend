@@ -3,4 +3,6 @@ export interface companyDataDto {
     cellphone: string;
     website?: string; 
     address: string;
+
+    id?: number;
 }

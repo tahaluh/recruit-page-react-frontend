@@ -1,29 +1,33 @@
 .jobPost {
-    font-family: monospace;
-    background-color: white;
-    padding: 20px 30px;
-    margin-bottom: .3em;
-    align-items: center;
+  font-family: monospace;
+  background-color: white;
+  padding: 20px 30px;
+  margin-bottom: 0.3em;
+  align-items: center;
 }
 
-.job-content {    
-    display: grid;
-    grid-template-columns: 2fr 1.5fr 3fr 1fr;
-    max-width: 95%;
-    margin: auto;
-    align-items: center;    
+.job-content {
+  display: grid;
+  grid-template-columns: 2fr 1.5fr 3fr 1fr;
+  max-width: 95%;
+  margin: auto;
+  align-items: center;
 }
 
 .job-tittle {
-    font-weight: 100;
+  font-weight: 100;
 }
 
 .job-company {
-    font-weight: 100;    
+  font-weight: 100;
 }
 
 .job-skills {
-    display: flex;
-    flex-wrap: wrap;
-    padding: 0 35px;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 20px 35px;
+  font-family: monospace;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 1em;
 }

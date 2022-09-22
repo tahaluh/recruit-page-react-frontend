@@ -1,10 +1,12 @@
 import "./profile.scss";
 import Header from "../../components/header/header";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import userService from "../../services/usersService";
 
 export default function Profile() {
+  const navigate = useNavigate();
+
   const [isLoading, setLoading] = useState<boolean>(false);
 
   const [email, setEmail] = useState<string>("");
@@ -40,6 +42,7 @@ export default function Profile() {
         setMessageLoading(response.data.status ? null : response.data.message);
         if (response.data.status === true) {
           setMessageLoading("Seus dados foram atualizados com sucesso")
+          navigate('/')
         }
       })
       .catch((error) => {

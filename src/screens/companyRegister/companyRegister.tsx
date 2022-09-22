@@ -136,7 +136,7 @@ export default function CompanyRegister() {
             response.data.status ? null : response.data.message
           );
           if (response.data.status === true) {
-            navigate("/");
+            navigate("/company");
           }
         })
         .catch((error) => {
