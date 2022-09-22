@@ -64,6 +64,22 @@ class JobService {
         return Promise.reject(error);
       });
   }
+
+  async remove(id: string) {
+    let token = await localStorage.getItem("TOKEN");
+    return axios({
+      url: process.env.REACT_APP_API_URL + `job/${id}`,
+      method: "DELETE",
+      timeout: 5000,
+      headers: { Accept: "application/json", Authorization: "Bearer " + token },
+    })
+      .then(async (response) => {
+        return (await Promise.resolve(response)).data;
+      })
+      .catch((error) => {
+        return Promise.reject(error);
+      });
+  }
 }
 
 const jobService = new JobService();

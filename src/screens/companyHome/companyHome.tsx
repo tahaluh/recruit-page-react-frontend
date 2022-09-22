@@ -86,6 +86,7 @@ export default function CompanyHome() {
               {jobs.map((job) => {
                 return (
                   <JobsPost
+                    companyLogged={true}
                     key={job.id}
                     id={job.id}
                     company={JSON.stringify(job.company?.name).replace(

@@ -3,11 +3,12 @@ import "./jobPost.scss";
 import JobSkill from "../jobSkill/jobSkill";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-
+import jobService from "../../services/jobService";
 
 export default function JobsPost(props: any) {
   const navigate = useNavigate();
 
+  const [isLoading, setLoading] = useState(false)
   const [skills, setSkills] = useState([]);
 
   useEffect(() => {
@@ -16,6 +17,22 @@ export default function JobsPost(props: any) {
       setSkills(tempSkills);
     }
   }, []);
+
+  const handleDelete = () => {
+    console.log(props.id);
+
+    jobService
+      .remove(props.id)
+      .then((response) => {
+        if (response.status) {
+          console.log(response)
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <div className="jobPost">
@@ -40,9 +57,21 @@ export default function JobsPost(props: any) {
           })}
         </div>
         <div className="job-apply-button-div">
-          <Link to={`/job/${props.id}`} className="job-apply-button primary-button">
+          <Link
+            to={`/job/${props.id}`}
+            className="job-apply-button primary-button"
+          >
             Visualizar
           </Link>
+          {props.companyLogged && (
+            <button
+              className="job-delete-button primary-button"
+              disabled={isLoading}
+              onClick={handleDelete}
+            >
+              Deletar
+            </button>
+          )}
         </div>
       </div>
     </div>
