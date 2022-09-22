@@ -4,12 +4,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import companysService from "../../services/companysService";
 import viaCepApiService from "../../services/viaCepService";
+import isLogedService from "../../services/isLogedService";
 
 export default function CompanyRegister() {
   const navigate = useNavigate();
 
-  const [isLoadingToken, setLoadingToken] = useState<boolean>(true);
-  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(true);
 
   const [name, setName] = useState<string>("");
   const [cellphone, setCellphone] = useState<string>("");
@@ -144,17 +144,22 @@ export default function CompanyRegister() {
   };
 
   useEffect(() => {
-    let token = localStorage.getItem("TOKEN");
-    if (!token) {
-      navigate("/login");
+    const verifyLogin = async () => {
+      if (!await isLogedService.isLoged()){
+        navigate('/')
+      }
+      setLoading(false)
     }
-    setLoadingToken(false);
+
+    verifyLogin().catch(console.error)
+
+    setLoading(false);
   }, []);
 
   return (
     <div className="App">
       <Header />
-      {!isLoadingToken && (
+      {!isLoading && (
         <>
           <div className="register-container">
             <form className="register" onSubmit={handleSubmit}>
