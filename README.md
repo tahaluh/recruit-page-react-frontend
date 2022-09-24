@@ -26,7 +26,7 @@ As seguintes ferramentas foram usadas na construção do projeto (Front-end):
 
 ### Client
 
-  1. `$ cd client`
+  1. Atualize o arquivo Env com o link da [api](https://github.com/tahaluh/recruit-page-nestjs-backend)
   2. `$ npm install`
   3. `$ npm start`
 
