@@ -15,7 +15,7 @@
 ---
 # 💼 Tecnologias Utilizadas
 
-As seguintes ferramentas foram usadas na construção do projeto:
+As seguintes ferramentas foram usadas na construção do projeto (Front-end):
 
 - ReactJS
 - Axios
