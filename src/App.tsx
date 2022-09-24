@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Router, Routes, Route } from "react-router-dom";
 import "./App.scss";
 import HomeScreen from "./screens/homeScreen/homeScreen";
 import Register from "./screens/register/register";
@@ -14,7 +14,6 @@ import JobView from "./screens/jobView/jobView";
 function App() {
   defineInterceptor()
   return (
-    <Router>
       <Routes>
         <Route path="/" element={<HomeScreen />}></Route>
         <Route path="/register" element={<Register />}></Route>
@@ -25,7 +24,6 @@ function App() {
         <Route path="/job-register" element={<JobRegister />}></Route>
         <Route path="/job/:id" element={<JobView />}></Route>
       </Routes>
-    </Router>
   );
 }
 
