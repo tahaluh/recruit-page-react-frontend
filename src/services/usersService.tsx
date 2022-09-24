@@ -49,6 +49,7 @@ class UserService {
     })
       .then((response) => {
         if (typeof response == "object" && response.data.access_token) {
+          console.log(response.data.access_token)
           localStorage.setItem("TOKEN", response.data.access_token);
           return Promise.resolve(response);
         } else {

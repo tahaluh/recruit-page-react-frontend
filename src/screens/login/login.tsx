@@ -51,6 +51,7 @@ export default function Login() {
       userService
         .login(data)
         .then((response) => {
+          console.log(response)
           setLoading(false);
           navigate("/");
         })

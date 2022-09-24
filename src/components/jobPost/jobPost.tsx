@@ -47,7 +47,7 @@ export default function JobsPost(props: any) {
 
         <div className="job-salary">
           <span>
-            <i>icone</i>
+            <i></i>
           </span>
           <p className="job-salary-text">até R$ {props.salary}</p>
         </div>

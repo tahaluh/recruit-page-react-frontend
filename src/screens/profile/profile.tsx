@@ -265,6 +265,7 @@ export default function Profile() {
               setError={setErrorPassword}
               error={errorNewPassword}
               minLength={8}
+              required={true}
             ></FormInput>
           </div>
 
@@ -343,7 +344,7 @@ const FormInput = (props: any) => {
         id={props.name}
         type={props.type}
         placeholder={props.label}
-        required
+        required={props.required}
         minLength={props.minLength}
         maxLength={props.maxLength}
         value={props.value}
