@@ -25,6 +25,7 @@ export default function Profile() {
   const [companyMessageLoading, setCompanyMessageLoading] = useState<
     string | null
   >(null);
+  const [companyAddress, setCompanyAddress] = useState<string>("");
 
   const [errorEmail, setErrorEmail] = useState<string | null>(null);
   const [errorPassword, setErrorPassword] = useState<string | null>(null);
@@ -90,7 +91,7 @@ export default function Profile() {
       });
   };
 
-  const companyValidate = () => {
+  const companyValidate = async () => {
     let error = false;
 
     setCompanyMessageLoading(null);
@@ -99,7 +100,7 @@ export default function Profile() {
     setErrorCompanyWebsite(null);
     setErrorCompanyCep(null);
 
-    if (companyCellphone.length < 15) {
+    if (companyCellphone.length < 15 && companyCellphone) {
       setErrorCompanyCellphone("Informe um telefone válido");
       error = true;
     }
@@ -111,6 +112,10 @@ export default function Profile() {
       !reWebsite.test(companyWebsite.toLowerCase())
     ) {
       setErrorCompanyWebsite("Informe um website válido");
+      error = true;
+    }
+
+    if (!(await validateCep())) {
       error = true;
     }
 
@@ -132,18 +137,19 @@ export default function Profile() {
   const validateCep = async () => {
     let error = false;
 
-    if (companyCep.length < 9) {
-      setErrorCompanyCep("Informe um cep válido");
-      error = true;
+    if (companyCep) {
+      if (companyCep.length < 9) {
+        setErrorCompanyCep("Informe um cep válido");
+        error = true;
+      }
+      let address = await viaCepApi(companyCep);
+      if (!address) {
+        error = true;
+        setErrorCompanyCep("Cep inválido");
+      } else {
+        setCompanyAddress(address);
+      }
     }
-    let address = await viaCepApi(companyCep);
-    if (!address) {
-      error = true;
-      setErrorCompanyCep("Cep inválido");
-    } else {
-      return address;
-    }
-
     return !error;
   };
 
@@ -185,18 +191,23 @@ export default function Profile() {
 
   const companyPut = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    let companyAddress = await validateCep();
-    if (companyValidate() && companyAddress) {
+    let address = await viaCepApi(companyCep);
+    if (await companyValidate()) {
       setLoading(true);
+      console.log("aqui");
 
       let token = localStorage.getItem("TOKEN");
+
+      let address = await viaCepApi(companyCep);
 
       let data = {
         name: companyName,
         cellphone: companyCellphone,
         website: companyWebsite,
-        address: companyAddress,
+        address: address ? address : "",
       };
+
+      console.log(companyAddress);
 
       companyService
         .update(data)
