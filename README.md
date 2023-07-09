@@ -10,7 +10,7 @@
 
 > A aplicação permite postar e acessar vagas de trabalho criadas por empresas
 
-<h4 align="center"><a href="#" target="_blank">Clique para visitar o projeto</a></h4>
+<h4 align="center"><a href="https://tahaluh.github.io/recruit-page-react-frontend/#" target="_blank">Clique para visitar o projeto</a></h4>
 
 ---
 # 💼 Tecnologias Utilizadas
